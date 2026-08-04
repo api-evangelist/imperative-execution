@@ -1,0 +1,59 @@
+# robots.txt for imperativex.com
+# Last reviewed: 2026-05-19
+# Policy: allow all standard search crawlers and AI crawlers (training + citation)
+
+# ---------------------------------------------------------------
+# Default rule — applies to any crawler not explicitly named below
+# ---------------------------------------------------------------
+User-agent: *
+Allow: /
+
+# ---------------------------------------------------------------
+# AI crawlers — explicitly allowed for predictable behavior
+# ---------------------------------------------------------------
+
+# OpenAI / ChatGPT
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic / Claude
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Google Gemini training corpus (separate from Googlebot, which handles Search)
+User-agent: Google-Extended
+Allow: /
+
+# Common Crawl — feeds many open-source AI models
+User-agent: CCBot
+Allow: /
+
+# ---------------------------------------------------------------
+# Discovery aids
+# ---------------------------------------------------------------
+Sitemap: https://www.imperativex.com/sitemap.xml
+
+# LLMs index (llms.txt spec — https://llmstxt.org)
+# https://www.imperativex.com/llms.txt

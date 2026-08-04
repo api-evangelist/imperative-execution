@@ -1,0 +1,614 @@
+generated: '2026-08-04'
+method: generated
+source: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+x-provenance:
+  note: 'IntelligentCross does NOT publish an AsyncAPI document. This document is an
+    API Evangelist rendering of the provider''s own published IntelligentCross Market
+    Data Feed Specification v1.11 (updated July 30, 2020) into AsyncAPI 3.0.0. Every
+    channel, address, message type code and payload field below is transcribed from
+    that public PDF and from the IntelligentCross FAQ - nothing is invented. It is not
+    a provider artifact and must not be presented as one.'
+  authored_by: API Evangelist enrichment pipeline
+  provider_publishes_asyncapi: false
+  spec_documents:
+  - name: IntelligentCross Market Data Feed Specification
+    version: '1.11'
+    updated: '2020-07-30'
+    url: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+    http_status: 200
+  - name: IntelligentCross IQX Market Data Rerequest Specification
+    version: '1.08'
+    url: https://cdn.prod.website-files.com/5ee92e3bd6214065dc7f2d48/61dc6cb50403bf15350ea647_IntelligentCross%20IQX%20Market%20Data%20Rerequest%20Specification%20v1.08.pdf
+    http_status: 200
+spec_type: AsyncAPI
+spec_version: 3.0.0
+document:
+  asyncapi: 3.0.0
+  info:
+    title: IntelligentCross IQX Market Data Feed
+    version: '1.11'
+    description: |
+      The IntelligentCross Market Data Feed (IQX) disseminates all visible ASPEN resting
+      orders, cancels for ASPEN visible orders, and all ASPEN executions. It additionally
+      provides information for each symbol that may be traded, market state, and individual
+      symbol trading states (halts).
+
+      The feed is disseminated over multicast UDP. Each UDP packet transports a variable
+      number of messages (zero for heartbeats), limited to a 1500 byte MTU. Packets carry a
+      header identifying the market day, the feed, the sequence of the first message in the
+      packet and the message count, so a consumer can detect gaps: the next packet's expected
+      Sequence is the previous packet's Sequence plus its Count.
+
+      Each ASPEN book is disseminated on its own multicast address. Primary (A) and secondary
+      (B) groups are published for every feed, and a separate UAT (test) environment is
+      published alongside production.
+    contact:
+      name: IntelligentCross Operations
+      email: ops@intelligentcross.com
+      url: https://www.imperativex.com/market-data
+    externalDocs:
+      description: IntelligentCross Market Data Feed Specification v1.11
+      url: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+  defaultContentType: application/octet-stream
+  servers:
+    prod-primary:
+      host: 233.203.108.4
+      protocol: udp
+      description: PROD primary (A) multicast group. Source IP 46.255.0.74, RP 185.136.106.2.
+      tags:
+      - name: env:production
+      - name: feed:A
+    prod-secondary:
+      host: 233.203.108.6
+      protocol: udp
+      description: PROD secondary (B) multicast group. Source IP 46.255.0.90, RP 185.136.106.130.
+      tags:
+      - name: env:production
+      - name: feed:B
+    uat-primary:
+      host: 233.203.108.5
+      protocol: udp
+      description: UAT primary (A) multicast group. Source IP 46.255.0.82, RP 185.136.106.2.
+      tags:
+      - name: env:uat
+      - name: feed:A
+    uat-secondary:
+      host: 233.203.108.7
+      protocol: udp
+      description: UAT secondary (B) multicast group. Source IP 46.255.0.98, RP 185.136.106.130.
+      tags:
+      - name: env:uat
+      - name: feed:B
+  channels:
+    aspenFeeFeeProd:
+      address: 'udp://233.203.108.4:29049'
+      title: ASPEN Fee/Fee (PROD)
+      description: Production ASPEN Fee/Fee book. Feed identifier 'P'. Secondary (B)
+        group 233.203.108.6, same port.
+      servers:
+      - $ref: '#/servers/prod-primary'
+      - $ref: '#/servers/prod-secondary'
+      messages:
+        marketEvent:
+          $ref: '#/components/messages/MarketEvent'
+        symbolInformation:
+          $ref: '#/components/messages/SymbolInformation'
+        symbolState:
+          $ref: '#/components/messages/SymbolState'
+        newOrderAdd:
+          $ref: '#/components/messages/NewOrderAdd'
+        orderPartialCancel:
+          $ref: '#/components/messages/OrderPartialCancel'
+        orderCancelAll:
+          $ref: '#/components/messages/OrderCancelAll'
+        orderUpdated:
+          $ref: '#/components/messages/OrderUpdated'
+        orderExecuted:
+          $ref: '#/components/messages/OrderExecuted'
+        trade:
+          $ref: '#/components/messages/Trade'
+        tradeBreak:
+          $ref: '#/components/messages/TradeBreak'
+    aspenMakerTakerProd:
+      address: 'udp://233.203.108.4:29050'
+      title: ASPEN Maker/Taker (PROD)
+      description: Production ASPEN Maker/Taker book. Feed identifier 'A'. Secondary
+        (B) group 233.203.108.6, same port.
+      servers:
+      - $ref: '#/servers/prod-primary'
+      - $ref: '#/servers/prod-secondary'
+      messages:
+        marketEvent:
+          $ref: '#/components/messages/MarketEvent'
+        symbolInformation:
+          $ref: '#/components/messages/SymbolInformation'
+        symbolState:
+          $ref: '#/components/messages/SymbolState'
+        newOrderAdd:
+          $ref: '#/components/messages/NewOrderAdd'
+        orderPartialCancel:
+          $ref: '#/components/messages/OrderPartialCancel'
+        orderCancelAll:
+          $ref: '#/components/messages/OrderCancelAll'
+        orderExecuted:
+          $ref: '#/components/messages/OrderExecuted'
+        trade:
+          $ref: '#/components/messages/Trade'
+    aspenTakerMakerProd:
+      address: 'udp://233.203.108.4:29051'
+      title: ASPEN Taker/Maker (PROD)
+      description: Production ASPEN Taker/Maker book. Feed identifier 'Z'. Secondary
+        (B) group 233.203.108.6, same port.
+      servers:
+      - $ref: '#/servers/prod-primary'
+      - $ref: '#/servers/prod-secondary'
+      messages:
+        marketEvent:
+          $ref: '#/components/messages/MarketEvent'
+        symbolInformation:
+          $ref: '#/components/messages/SymbolInformation'
+        symbolState:
+          $ref: '#/components/messages/SymbolState'
+        newOrderAdd:
+          $ref: '#/components/messages/NewOrderAdd'
+        orderPartialCancel:
+          $ref: '#/components/messages/OrderPartialCancel'
+        orderCancelAll:
+          $ref: '#/components/messages/OrderCancelAll'
+        orderExecuted:
+          $ref: '#/components/messages/OrderExecuted'
+        trade:
+          $ref: '#/components/messages/Trade'
+    aspenFeeFeeUat:
+      address: 'udp://233.203.108.5:18505'
+      title: ASPEN Fee/Fee (UAT)
+      description: UAT ASPEN Fee/Fee book. Feed identifier 'T'. Secondary (B) group
+        233.203.108.7, same port.
+      servers:
+      - $ref: '#/servers/uat-primary'
+      - $ref: '#/servers/uat-secondary'
+      messages:
+        marketEvent:
+          $ref: '#/components/messages/MarketEvent'
+        symbolInformation:
+          $ref: '#/components/messages/SymbolInformation'
+        symbolState:
+          $ref: '#/components/messages/SymbolState'
+        newOrderAdd:
+          $ref: '#/components/messages/NewOrderAdd'
+        orderExecuted:
+          $ref: '#/components/messages/OrderExecuted'
+        trade:
+          $ref: '#/components/messages/Trade'
+    aspenMakerTakerUat:
+      address: 'udp://233.203.108.5:18506'
+      title: ASPEN Maker/Taker (UAT)
+      description: UAT ASPEN Maker/Taker book. Feed identifier 'B'. Secondary (B) group
+        233.203.108.7, same port.
+      servers:
+      - $ref: '#/servers/uat-primary'
+      - $ref: '#/servers/uat-secondary'
+      messages:
+        marketEvent:
+          $ref: '#/components/messages/MarketEvent'
+        newOrderAdd:
+          $ref: '#/components/messages/NewOrderAdd'
+        orderExecuted:
+          $ref: '#/components/messages/OrderExecuted'
+    aspenTakerMakerUat:
+      address: 'udp://233.203.108.5:18507'
+      title: ASPEN Taker/Maker (UAT)
+      description: UAT ASPEN Taker/Maker book. Feed identifier 'Y'. Secondary (B) group
+        233.203.108.7, same port.
+      servers:
+      - $ref: '#/servers/uat-primary'
+      - $ref: '#/servers/uat-secondary'
+      messages:
+        marketEvent:
+          $ref: '#/components/messages/MarketEvent'
+        newOrderAdd:
+          $ref: '#/components/messages/NewOrderAdd'
+        orderExecuted:
+          $ref: '#/components/messages/OrderExecuted'
+  operations:
+    receiveAspenFeeFeeProd:
+      action: receive
+      channel:
+        $ref: '#/channels/aspenFeeFeeProd'
+      summary: Subscribe to the production ASPEN Fee/Fee multicast feed.
+    receiveAspenMakerTakerProd:
+      action: receive
+      channel:
+        $ref: '#/channels/aspenMakerTakerProd'
+      summary: Subscribe to the production ASPEN Maker/Taker multicast feed.
+    receiveAspenTakerMakerProd:
+      action: receive
+      channel:
+        $ref: '#/channels/aspenTakerMakerProd'
+      summary: Subscribe to the production ASPEN Taker/Maker multicast feed.
+    receiveAspenFeeFeeUat:
+      action: receive
+      channel:
+        $ref: '#/channels/aspenFeeFeeUat'
+      summary: Subscribe to the UAT ASPEN Fee/Fee multicast feed.
+    receiveAspenMakerTakerUat:
+      action: receive
+      channel:
+        $ref: '#/channels/aspenMakerTakerUat'
+      summary: Subscribe to the UAT ASPEN Maker/Taker multicast feed.
+    receiveAspenTakerMakerUat:
+      action: receive
+      channel:
+        $ref: '#/channels/aspenTakerMakerUat'
+      summary: Subscribe to the UAT ASPEN Taker/Maker multicast feed.
+  components:
+    messages:
+      MarketEvent:
+        name: MarketEvent
+        title: Market Event
+        summary: Session and market-wide state transitions.
+        contentType: application/octet-stream
+        payload:
+          $ref: '#/components/schemas/MarketEvent'
+      SymbolInformation:
+        name: SymbolInformation
+        title: Symbol Information
+        summary: Per-symbol reference data, including the Symbol ID to Symbol mapping
+          for the day.
+        contentType: application/octet-stream
+        payload:
+          $ref: '#/components/schemas/SymbolInformation'
+      SymbolState:
+        name: SymbolState
+        title: Symbol State
+        summary: Per-symbol trading state transitions (matching active/inactive, enabled/disabled).
+        contentType: application/octet-stream
+        payload:
+          $ref: '#/components/schemas/SymbolState'
+      NewOrderAdd:
+        name: NewOrderAdd
+        title: New Order Add
+        summary: A new visible ASPEN resting order was added to the book.
+        contentType: application/octet-stream
+        payload:
+          $ref: '#/components/schemas/NewOrderAdd'
+      OrderPartialCancel:
+        name: OrderPartialCancel
+        title: Order Partial Cancel
+        summary: Shares were cancelled from a resting visible order.
+        contentType: application/octet-stream
+        payload:
+          $ref: '#/components/schemas/OrderPartialCancel'
+      OrderCancelAll:
+        name: OrderCancelAll
+        title: Order Cancel All
+        summary: A resting visible order was fully cancelled.
+        contentType: application/octet-stream
+        payload:
+          $ref: '#/components/schemas/OrderCancelAll'
+      OrderUpdated:
+        name: OrderUpdated
+        title: Order Updated
+        summary: Reserved for future use - Order Updated messages are not currently
+          sent. Customer initiated order changes result in either Order Partial Cancel,
+          or Order Cancel All followed by New Order Add and/or potentially Order Executed.
+        contentType: application/octet-stream
+        payload:
+          $ref: '#/components/schemas/OrderUpdated'
+      OrderExecuted:
+        name: OrderExecuted
+        title: Order Executed
+        summary: Sent when a visible order is executed.
+        contentType: application/octet-stream
+        payload:
+          $ref: '#/components/schemas/OrderExecuted'
+      Trade:
+        name: Trade
+        title: Trade
+        summary: Sent when a hidden order is executed.
+        contentType: application/octet-stream
+        payload:
+          $ref: '#/components/schemas/Trade'
+      TradeBreak:
+        name: TradeBreak
+        title: Trade Break
+        summary: Reserved for future use - Trade Break messages are not currently sent.
+        contentType: application/octet-stream
+        payload:
+          $ref: '#/components/schemas/TradeBreak'
+    schemas:
+      UdpPacketHeader:
+        type: object
+        description: Fixed 20-byte packet header preceding the message blocks.
+        properties:
+          marketDayIdentifier:
+            type: string
+            description: 'Unique identifier for trading day. Offset 0, length 9, ASCII
+              number.'
+          feedIdentifier:
+            type: string
+            description: 'Unique code for feed. Offset 9, length 1, alpha.'
+          sequence:
+            type: integer
+            description: 'Sequence number for next message. Offset 10, length 8, little-endian
+              binary.'
+          count:
+            type: integer
+            description: 'Number of messages in packet. Offset 18, length 2, little-endian
+              binary.'
+      UdpMessageBlockHeader:
+        type: object
+        description: Simple block header preceding each message within a packet.
+        properties:
+          length:
+            type: integer
+            description: 'Length of the message. Offset 0, length 2, little-endian binary.'
+      MarketEvent:
+        type: object
+        x-message-type: A
+        properties:
+          messageType:
+            type: string
+            const: A
+            description: 'Offset 0, length 1, alpha.'
+          reserved:
+            type: string
+            description: 'Reserved for future use. Offset 1, length 2, alpha.'
+          timestamp:
+            type: integer
+            description: 'Nanoseconds since epoch (UTC). Offset 3, length 8.'
+          event:
+            type: string
+            description: 'Offset 11, length 1, alpha.'
+            enum: [O, S, Q, E, C]
+            x-enum-descriptions:
+              O: Start of Session
+              S: Market accepting orders
+              Q: Market open for trading
+              E: Market trading ended for day
+              C: End of Session
+      SymbolInformation:
+        type: object
+        x-message-type: B
+        properties:
+          messageType:
+            type: string
+            const: B
+            description: 'Offset 0, length 1, alpha.'
+          symbolId:
+            type: integer
+            description: 'Symbol Index. Offset 1, length 2.'
+          timestamp:
+            type: integer
+            description: 'Nanoseconds since epoch (UTC). Offset 3, length 8.'
+          symbol:
+            type: string
+            description: 'Stock Symbol. Offset 11, length 11, alpha.'
+          listingMarket:
+            type: string
+            description: 'Code identifying the primary listing market. Offset 22, length
+              1, alpha.'
+            enum: [N, Q, P, Z, A, V]
+            x-enum-descriptions:
+              N: NYSE
+              Q: NASDAQ
+              P: ARCA
+              Z: BATS Z
+              A: AMEX
+              V: IEX
+          reserved:
+            type: string
+            description: 'Reserved for future use. Offset 23, length 1, alpha.'
+          roundLotSize:
+            type: integer
+            description: 'Size of one round lot. Offset 24, length 4.'
+      SymbolState:
+        type: object
+        x-message-type: C
+        properties:
+          messageType:
+            type: string
+            const: C
+            description: 'Offset 0, length 1, alpha.'
+          symbolId:
+            type: integer
+            description: 'Symbol Index. Offset 1, length 2.'
+          timestamp:
+            type: integer
+            description: 'Nanoseconds since epoch (UTC). Offset 3, length 8.'
+          symbol:
+            type: string
+            description: 'Stock Symbol. Offset 11, length 11, alpha.'
+          state:
+            type: string
+            description: 'Offset 22, length 1, alpha.'
+            enum: [I, A, D, E]
+            x-enum-descriptions:
+              I: Matching Inactive - orders may be accepted, but will not currently
+                match
+              A: Matching Active - orders may be accepted and may currently match
+              D: Disabled - orders will not be accepted and are not eligible for matching
+              E: Enabled - orders will be accepted and are eligible for matching
+          reserved:
+            type: string
+            description: 'Reserved for future use. Offset 23, length 1, alpha.'
+          info:
+            type: string
+            description: 'Optional text. Offset 24, length 4, alpha.'
+      NewOrderAdd:
+        type: object
+        x-message-type: D
+        properties:
+          messageType:
+            type: string
+            const: D
+            description: 'Offset 0, length 1, alpha.'
+          symbolId:
+            type: integer
+            description: 'Symbol Index. Offset 1, length 2.'
+          timestamp:
+            type: integer
+            description: 'Nanoseconds since epoch (UTC). Offset 3, length 8.'
+          orderId:
+            type: integer
+            description: 'Market Issued Unique Order ID. Offset 11, length 8. This is
+              the same Order ID returned by the FIX order gateway order acknowledgment
+              message (38=8, 150=0) in the FIX OrderID field (tag 37).'
+          side:
+            type: string
+            description: 'Offset 19, length 1, alpha.'
+            enum: [B, S]
+          shares:
+            type: integer
+            description: 'Qty. Offset 20, length 4.'
+          symbol:
+            type: string
+            description: 'Stock Symbol. Offset 24, length 11, alpha.'
+          price:
+            type: integer
+            description: 'Price with 6 implied decimals. Offset 35, length 8, signed
+              positive integer. $543.21 is represented as 543210000.'
+          reserved:
+            type: string
+            description: 'Reserved for future use. Offset 43, length 4, alpha.'
+      OrderPartialCancel:
+        type: object
+        x-message-type: F
+        properties:
+          messageType:
+            type: string
+            const: F
+            description: 'Offset 0, length 1, alpha.'
+          symbolId:
+            type: integer
+            description: 'Symbol Index. Offset 1, length 2.'
+          timestamp:
+            type: integer
+            description: 'Nanoseconds since epoch (UTC). Offset 3, length 8.'
+          orderId:
+            type: integer
+            description: 'Market Issued Unique Order ID. Offset 11, length 8.'
+          sharesCanceled:
+            type: integer
+            description: 'Number of shares cancelled. Offset 19, length 4.'
+      OrderCancelAll:
+        type: object
+        x-message-type: G
+        properties:
+          messageType:
+            type: string
+            const: G
+            description: 'Offset 0, length 1, alpha.'
+          symbolId:
+            type: integer
+            description: 'Symbol Index. Offset 1, length 2.'
+          timestamp:
+            type: integer
+            description: 'Nanoseconds since epoch (UTC). Offset 3, length 8.'
+          orderId:
+            type: integer
+            description: 'Market Issued Unique Order ID. Offset 11, length 8.'
+      OrderUpdated:
+        type: object
+        x-message-type: H
+        x-status: reserved-for-future-use
+        properties:
+          messageType:
+            type: string
+            const: H
+            description: 'Offset 0, length 1, alpha.'
+          symbolId:
+            type: integer
+            description: 'Symbol Index. Offset 1, length 2.'
+          timestamp:
+            type: integer
+            description: 'Nanoseconds since epoch (UTC). Offset 3, length 8.'
+          orderId:
+            type: integer
+            description: 'Market Issued Unique Order ID. Offset 11, length 8. Order
+              ID remains unchanged as a result of an Order Updated message.'
+          shares:
+            type: integer
+            description: 'Number of shares. Offset 19, length 4.'
+          price:
+            type: integer
+            description: 'Price with 6 implied decimals. Offset 23, length 8.'
+      OrderExecuted:
+        type: object
+        x-message-type: J
+        properties:
+          messageType:
+            type: string
+            const: J
+            description: 'Offset 0, length 1, alpha.'
+          symbolId:
+            type: integer
+            description: 'Symbol Index. Offset 1, length 2.'
+          timestamp:
+            type: integer
+            description: 'Nanoseconds since epoch (UTC). Offset 3, length 8.'
+          orderId:
+            type: integer
+            description: 'Market Issued Unique Order ID. Offset 11, length 8.'
+          shares:
+            type: integer
+            description: 'Qty Executed. Offset 19, length 4.'
+          executionId:
+            type: integer
+            description: 'Market Issued Unique Execution ID. Offset 23, length 8.'
+          reserved:
+            type: string
+            description: 'Reserved for future use. Offset 31, length 1, alpha.'
+          price:
+            type: integer
+            description: 'Price with 6 implied decimals. Offset 32, length 8.'
+      Trade:
+        type: object
+        x-message-type: K
+        properties:
+          messageType:
+            type: string
+            const: K
+            description: 'Offset 0, length 1, alpha.'
+          symbolId:
+            type: integer
+            description: 'Symbol Index. Offset 1, length 2.'
+          timestamp:
+            type: integer
+            description: 'Nanoseconds since epoch (UTC). Offset 3, length 8.'
+          reservedInteger:
+            type: integer
+            description: 'Reserved for future use. Offset 11, length 8.'
+          reservedAlpha:
+            type: string
+            description: 'Reserved for future use. Offset 19, length 1, alpha.'
+          shares:
+            type: integer
+            description: 'Qty Executed. Offset 20, length 4.'
+          symbol:
+            type: string
+            description: 'Stock Symbol. Offset 24, length 11, alpha.'
+          price:
+            type: integer
+            description: 'Price with 6 implied decimals. Offset 35, length 8.'
+          executionId:
+            type: integer
+            description: 'Market Issued Unique Execution ID. Offset 43, length 8.'
+      TradeBreak:
+        type: object
+        x-message-type: M
+        x-status: reserved-for-future-use
+        properties:
+          messageType:
+            type: string
+            const: M
+            description: 'Offset 0, length 1, alpha.'
+          symbolId:
+            type: integer
+            description: 'Symbol Index. Offset 1, length 2.'
+          timestamp:
+            type: integer
+            description: 'Nanoseconds since epoch (UTC). Offset 3, length 8.'
+          executionId:
+            type: integer
+            description: 'Market Issued Unique Execution ID. Offset 11, length 8.'

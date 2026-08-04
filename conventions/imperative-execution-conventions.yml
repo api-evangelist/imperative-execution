@@ -1,0 +1,161 @@
+generated: '2026-08-04'
+method: searched
+source: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+docs:
+- https://www.imperativex.com/market-data
+- https://www.imperativex.com/faq
+summary: 'Cross-cutting request/response semantics for the two IntelligentCross surfaces:
+  the IQX binary multicast market data feed and the FIX 4.2 order-entry gateway. These
+  are not HTTP APIs, so the usual REST conventions (pagination, expansion, JSON error
+  envelopes, rate-limit headers) do not apply; the equivalent runtime semantics are
+  sequence numbering, A/B feed arbitration, gap recovery, and FIX session and tag conventions.'
+protocols:
+  market_data:
+    name: IQX
+    transport: multicast UDP
+    encoding: binary
+    data_types:
+      Alpha: Printable ASCII characters
+      Integer: Binary, little endian
+      Number: ASCII representation of a number
+    framing:
+      packet_header_fields: [Market Day Identifier, Feed Identifier, Sequence, Count]
+      message_block_header: 2-byte message Length prefix per message
+      mtu: 1500 bytes
+      max_messages_per_packet: 65535 (theoretical)
+      heartbeats: Heartbeat packets contain 0 messages; Sequence is the sequence of the
+        next message to be transmitted, so heartbeats leave the implied sequence unchanged.
+    sequencing:
+      style: per-feed monotonic sequence
+      rule: The Sequence field in the packet header is the sequence of the first message
+        in the packet. Each message in a packet has an implied sequence. The next packet's
+        expected Sequence equals the previous packet's Sequence plus the previous packet's
+        Count.
+      gap_detection: Consumer-side, by comparing expected and observed Sequence.
+    redundancy:
+      style: A/B line arbitration
+      note: Every feed publishes a primary (A) and a secondary (B) multicast group on
+        distinct groups and source IPs, so a consumer can arbitrate between two independent
+        copies of the same stream.
+    recovery:
+      style: rerequest
+      spec: IntelligentCross IQX Market Data Rerequest Specification v1.08
+      url: https://cdn.prod.website-files.com/5ee92e3bd6214065dc7f2d48/61dc6cb50403bf15350ea647_IntelligentCross%20IQX%20Market%20Data%20Rerequest%20Specification%20v1.08.pdf
+    misconfiguration_guard:
+      rule: UDP packets carry header fields identifying which feed is being received and
+        the market day for the data being transmitted, to mitigate the risk of address
+        misconfiguration. Customers are recommended to inspect and validate these fields
+        before processing data.
+    timestamps:
+      format: nanoseconds since epoch
+      timezone: UTC
+      field: Timestamp (8 bytes) on every message
+    numeric_conventions:
+      price: 8-byte signed positive integer with 6 implied decimal places. $543.21 is
+        represented as 543210000 (0x2060BA10). Maximum representable price $9223372036854.775807.
+      shares: 4-byte integer
+    identifiers:
+      symbol_id:
+        type: 2-byte integer index
+        stability: Symbol ID to Symbol mapping MAY change from day to day. Consumers using
+          Symbol ID must update their mappings on a daily basis.
+        mapping_file: https://s3.amazonaws.com/iqx.imperativex.com/Symbol-Mapping.txt
+      symbol:
+        type: 11-character alpha
+        note: Symbol Information, Symbol State, New Order Add and Trade messages carry both
+          Symbol ID and the full stock Symbol, so a consumer may ignore Symbol ID entirely.
+          Cancel, Order Updated, Order Executed and Trade Break messages do not carry Symbol
+          and may be processed without relying on their Symbol ID fields.
+      order_id:
+        type: 8-byte market-issued unique integer
+        cross_surface: The Order ID in New Order Add is the same Order ID returned by the
+          FIX order gateway's order acknowledgment message (38=8, 150=0) in the FIX OrderID
+          field (tag 37). This is the join key between the private FIX drop and the public
+          IQX feed.
+      execution_id:
+        type: 8-byte market-issued unique integer
+  order_entry:
+    name: IntelligentCross FIX Order Entry
+    protocol: FIX 4.2
+    transport: FIX over TCP on private cross-connects at Equinix NY4 (Secaucus, NJ)
+    accepted_channels: FIX connections only. Telephone, email and instant message order
+      entry are not accepted.
+    required_order_entry_fields:
+    - Message Type
+    - Client Order ID
+    - Execution Instructions
+    - Subscriber Order Capacity
+    - Symbol
+    - Side
+    - Display Price instructions
+    - Time in Force
+    - Time of Order Creation
+    - Order Type
+    - Order Quantity
+    - ClientID
+    - Handling Instruction
+    routing:
+      field: ExDestination (tag 100)
+      default: ASPEN Fee/Fee
+      rule: Orders default to ASPEN Fee/Fee; any other book requires affirmative identification
+        via ExDestination[100].
+    order_types:
+      midpoint_book: [midpoint peg]
+      aspen_books: [market, limit, primary peg (with or without limit price), market peg
+          (with or without limit price)]
+      display_eligibility: Only limit orders and primary peg orders (with or without a limit
+        price) are eligible to be displayed.
+    time_in_force:
+      default: Day
+      values: [Day, IOC]
+      notes:
+        aspen_ioc: An ASPEN IOC remains until the next match event completes, then cancels
+          if unexecuted.
+        midpoint_ioc: A Midpoint IOC can participate in multiple match cycles and is cancelable
+          at any time.
+    quantity_modifiers:
+      MinQty: Minimum execution quantity permitted.
+      MaxQty: Midpoint peg orders only.
+    self_match_prevention:
+      supported: true
+      name: anti-internalization
+      enrollment: available on request
+      enforced_by: [Client ID, Broker MPID]
+    lot_handling: Odd lots and mixed lots are treated the same as round lots.
+idempotency:
+  supported: false
+  note: Neither surface publishes an idempotency-key contract. Order de-duplication on the
+    FIX gateway follows standard FIX ClOrdID semantics, which the venue does not document
+    publicly as an idempotency guarantee, so no Idempotency pointer is asserted for this
+    provider.
+pagination:
+  applicable: false
+  note: No HTTP collection endpoints exist.
+error_envelope:
+  applicable: false
+  note: 'No HTTP/JSON error envelope. Order rejects are FIX-level (the FIX specification is
+    subscriber-gated); market data has no request/response error surface - integrity is handled
+    by sequence gap detection and the rerequest specification.'
+rate_limiting:
+  published: false
+  note: No published rate-limit signaling. The venue instead publishes a Restricted Symbols
+    list of NMS symbols where orders may be rejected to remain below certain regulatory volume
+    thresholds.
+  restricted_symbols: https://www.imperativex.com/restricted
+versioning:
+  style: document-version on published specifications
+  see: changelog/imperative-execution-changelog.yml
+cross_links:
+  authentication: authentication/imperative-execution-authentication.yml
+  lifecycle: lifecycle/imperative-execution-lifecycle.yml
+  conformance: conformance/imperative-execution-conformance.yml
+  data_model: data-model/imperative-execution-data-model.yml
+  asyncapi: asyncapi/imperative-execution-iqx-asyncapi.yml
+  sandbox: sandbox/imperative-execution-sandbox.yml
+x-evidence:
+- fetched: '2026-08-04'
+  url: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+  http_status: 200
+- fetched: '2026-08-04'
+  url: https://www.imperativex.com/faq
+  http_status: 200

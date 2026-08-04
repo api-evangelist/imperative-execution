@@ -1,0 +1,94 @@
+generated: '2026-08-04'
+method: probed
+source: live HTTP probes of every Imperative Execution / IntelligentCross host
+summary: 'No /.well-known/ discovery document is published on any Imperative Execution host.
+  Every RFC 8615 path probed returned 404 on both imperativex.com and www.imperativex.com.
+  Two root-level discovery documents ARE published and are saved here: llms.txt (saved to
+  llms/imperative-execution-llms.txt) and robots.txt, which carries an explicit, dated
+  allow policy for named AI crawlers and points at the llms.txt.'
+hosts_probed:
+- https://www.imperativex.com
+- https://imperativex.com
+- http://iqx.imperativex.com
+- https://www.intelligentcross.com
+documents:
+- host: https://www.imperativex.com
+  path: /.well-known/security.txt
+  status: 404
+- host: https://www.imperativex.com
+  path: /.well-known/openid-configuration
+  status: 404
+- host: https://www.imperativex.com
+  path: /.well-known/oauth-authorization-server
+  status: 404
+- host: https://www.imperativex.com
+  path: /.well-known/api-catalog
+  status: 404
+- host: https://www.imperativex.com
+  path: /.well-known/ai-plugin.json
+  status: 404
+- host: https://www.imperativex.com
+  path: /.well-known/agent-card.json
+  status: 404
+- host: https://www.imperativex.com
+  path: /.well-known/agent.json
+  status: 404
+- host: https://www.imperativex.com
+  path: /llms.txt
+  status: 200
+  content_type: text/plain; charset=utf-8
+  bytes: 3086
+  file: ../llms/imperative-execution-llms.txt
+- host: https://www.imperativex.com
+  path: /robots.txt
+  status: 200
+  file: imperative-execution-robots.txt
+- host: https://www.imperativex.com
+  path: /sitemap.xml
+  status: 404
+  note: robots.txt advertises this sitemap, but the URL 404s.
+- host: https://imperativex.com
+  path: /.well-known/security.txt
+  status: 404
+- host: https://imperativex.com
+  path: /.well-known/openid-configuration
+  status: 404
+- host: https://imperativex.com
+  path: /.well-known/oauth-authorization-server
+  status: 404
+- host: https://imperativex.com
+  path: /.well-known/api-catalog
+  status: 404
+- host: https://imperativex.com
+  path: /.well-known/ai-plugin.json
+  status: 404
+- host: https://imperativex.com
+  path: /.well-known/agent-card.json
+  status: 404
+- host: https://imperativex.com
+  path: /.well-known/agent.json
+  status: 404
+- host: http://iqx.imperativex.com
+  path: /
+  status: 200
+  note: HTTP only (no TLS listener). Serves a meta-refresh redirect to
+    https://imperativex.com/market-data, plus the published IQX specification PDFs and,
+    via https://s3.amazonaws.com/iqx.imperativex.com/, the symbol mapping file and sample
+    PCAP captures.
+- host: https://www.intelligentcross.com
+  path: /.well-known/*
+  status: 200
+  false_positive: true
+  note: 'Every path on intelligentcross.com answers 200, because the domain 302-redirects
+    to http://imperativex.com/intelligentcross and serves the Webflow HTML page. This is
+    the classic catch-all false positive - no /.well-known/ document exists here. Rejected.'
+ai_crawler_policy:
+  source: https://www.imperativex.com/robots.txt
+  last_reviewed: '2026-05-19'
+  stance: allow all standard search crawlers and AI crawlers (training + citation)
+  named_agents_allowed: [GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, anthropic-ai,
+    Claude-User, Claude-SearchBot, PerplexityBot, Perplexity-User, Google-Extended, CCBot]
+  llms_txt_advertised: https://www.imperativex.com/llms.txt
+x-evidence:
+  fetched: '2026-08-04'
+  method: curl HEAD/GET with redirects followed, 10-15s timeout

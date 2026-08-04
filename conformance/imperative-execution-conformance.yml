@@ -1,0 +1,110 @@
+generated: '2026-08-04'
+method: searched
+source: https://www.imperativex.com/faq
+summary: 'IntelligentCross is a regulated US equities market-infrastructure operator, so its
+  conformance surface is regulatory and industry-protocol rather than web-API. It conforms to
+  FIX 4.2 for order entry, files and maintains an effective Form ATS-N under Rule 304 of
+  Regulation ATS, operates under Reg NMS with executions inside the NBBO protected quote range,
+  is registered with ISO 10383 market identifier codes, and its operating subsidiary is a FINRA
+  and SIPC member. None of the web-API standards families (OAuth 2.0, OIDC, RFC 9457, JSON:API,
+  OData, SCIM, FHIR) apply - there is no HTTP API.'
+standards:
+- id: fix-4.2
+  name: FIX Protocol 4.2
+  conforms: true
+  evidence: 'IntelligentCross FAQ: subscribers access the ATS via a FIX connection compliant
+    with the FIX API provided by IntelligentCross; the ATS currently supports FIX 4.2. Book
+    routing uses the standard ExDestination (tag 100) field; the order acknowledgment (38=8,
+    150=0) returns OrderID in tag 37.'
+  source: https://www.imperativex.com/faq
+- id: regulation-ats
+  name: SEC Regulation ATS (Form ATS-N, Rule 304)
+  conforms: true
+  evidence: IntelligentCross operates under an effective Form ATS-N filed under Rule 304 of
+    Regulation ATS; the current filing is public on SEC EDGAR (CIK 0001746102) and carries the
+    venue's operating rules and fee schedule.
+  source: https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001746102&type=ATS-N&dateb=&owner=include&count=40
+- id: reg-nms
+  name: SEC Regulation NMS
+  conforms: true
+  evidence: 'IntelligentCross trades NMS securities only and executes all orders within the
+    framework of the NBBO protected quote range; the NBBO is determined from a combination of
+    SIP and proprietary direct feeds from national securities exchanges. ASPEN is an SEC-approved
+    entrant to FINRA''s Alternative Display Facility for displayed quoting.'
+  source: https://www.imperativex.com/faq
+- id: iso-10383-mic
+  name: ISO 10383 Market Identifier Codes
+  conforms: true
+  evidence: 'Registered MICs per book: INCR (Intelligent Midpoint), ASPN (ASPEN Fee/Fee), ASMT
+    (ASPEN Maker/Taker), ASPI (ASPEN Taker/Maker). All books operate under MPID INCR.'
+  source: https://www.imperativex.com/faq
+- id: finra-membership
+  name: FINRA / SIPC membership
+  conforms: true
+  evidence: IntelligentCross LLC is a wholly owned subsidiary of Imperative Execution and a
+    member of FINRA and SIPC. Trades are reported to the Nasdaq TRF (primary) with the NYSE TRF
+    as backup, and cleared through Instinet, LLC.
+  source: https://www.imperativex.com/faq
+- id: llms-txt
+  name: llms.txt
+  conforms: true
+  evidence: A valid llms.txt is served at https://www.imperativex.com/llms.txt (HTTP 200,
+    text/plain) with an H1, blockquote summary and sectioned link lists, and is referenced from
+    robots.txt.
+  source: https://www.imperativex.com/llms.txt
+- id: rfc9309-robots
+  name: RFC 9309 Robots Exclusion Protocol
+  conforms: true
+  evidence: robots.txt published with an explicit, dated (last reviewed 2026-05-19) allow policy
+    for named AI crawlers (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, anthropic-ai,
+    Claude-User, Claude-SearchBot, PerplexityBot, Perplexity-User, Google-Extended, CCBot).
+  source: https://www.imperativex.com/robots.txt
+- id: oauth2
+  conforms: false
+  evidence: No OAuth 2.0 surface. /.well-known/oauth-authorization-server returned 404 on both
+    imperativex.com hosts.
+- id: openid-connect
+  conforms: false
+  evidence: No OIDC surface. /.well-known/openid-configuration returned 404 on both hosts.
+- id: openapi
+  conforms: false
+  evidence: No OpenAPI/Swagger document found. Probed /openapi.json, /openapi.yaml, /swagger.json
+    and /api-docs on www.imperativex.com and imperativex.com - all 404. The venue's contracts are
+    a public binary market-data specification (PDF) and a subscriber-gated FIX specification.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Not applicable - no HTTP API surface.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returned 404 on both hosts.
+- id: a2a-agent-card
+  conforms: false
+  evidence: /.well-known/agent-card.json and /.well-known/agent.json returned 404 on both
+    imperativex.com hosts. The intelligentcross.com domain answers 200 for every path but only
+    because it 302-redirects to imperativex.com and serves an HTML page - not an agent card.
+compliance_program:
+  published: true
+  kind: regulatory
+  documents:
+  - name: Form ATS-N (SEC EDGAR, CIK 0001746102)
+    url: https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001746102&type=ATS-N&dateb=&owner=include&count=40
+  - name: IntelligentCross Business Continuity Plan Summary (2025)
+    url: https://cdn.prod.website-files.com/5ee92e3bd621402efc7f2d3f/68880bfc97e2d817f8dc32a7_IntelligentCross_Business%20Continuity%20Plan%20Summary_2025.pdf
+  - name: Restricted Symbols list
+    url: https://www.imperativex.com/restricted
+  - name: Disclaimers
+    url: https://www.imperativex.com/disclaimers
+  certifications_found: []
+  note: No SOC 2 / ISO 27001 / PCI DSS / HIPAA / FedRAMP trust center was found on any
+    imperativex.com host. The published compliance posture is regulatory (SEC/FINRA), not a
+    security-certification trust center.
+x-evidence:
+- fetched: '2026-08-04'
+  url: https://www.imperativex.com/faq
+  http_status: 200
+- fetched: '2026-08-04'
+  url: https://www.imperativex.com/robots.txt
+  http_status: 200
+- fetched: '2026-08-04'
+  url: https://www.imperativex.com/llms.txt
+  http_status: 200

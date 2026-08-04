@@ -1,0 +1,49 @@
+generated: '2026-08-04'
+method: searched
+source: https://www.imperativex.com/market-data
+summary: 'Sample and reference payloads IntelligentCross publishes openly for the IQX market data
+  feed. These are the provider''s own artifacts, fetched over HTTPS with no credential - a full-day
+  PCAP capture of the live feed, the daily pipe-delimited symbol mapping file, and the worked
+  example messages in Appendix A of the feed specification. Nothing here is synthesized.'
+examples:
+- name: IQX full-day PCAP capture (mdA)
+  kind: packet-capture
+  description: A gzipped PCAP of the IntelligentCross IQX market data feed for the trading day
+    2023-01-03, published so consumers can build and validate a decoder against real wire traffic.
+  url: https://s3.amazonaws.com/iqx.imperativex.com/20230103-IQX-mdA.pcap.gz
+  format: application/gzip (pcap)
+  trade_date: '2023-01-03'
+  http_status: 200
+- name: Daily symbol mapping file
+  kind: reference-data
+  description: Static pipe-delimited mapping of IntelligentCross Symbol ID to stock Symbol,
+    published daily. Consumers decoding by Symbol ID must refresh it each day.
+  url: https://s3.amazonaws.com/iqx.imperativex.com/Symbol-Mapping.txt
+  format: pipe-delimited text
+  http_status: 200
+  bytes: 268223
+- name: Appendix A - Example Messages
+  kind: worked-examples
+  description: 'Field-by-field worked examples of the message sequence for a symbol spin and the
+    market events around it, using the fictitious symbol ACME and imagined Symbol ID 31999.
+    Sequence illustrated: Market Event O (Start of Session), Symbol Information B (ACME symbol
+    spin), Symbol State C (Enabled), Symbol State C (Inactive), Market Event A/S (Market accepting
+    orders), then order and execution messages.'
+  url: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+  section: Appendix A (pages 18-21)
+  http_status: 200
+- name: Appendix B - Symbology
+  kind: reference
+  description: IntelligentCross symbology conventions, including the expanded list of example
+    symbol suffixes.
+  url: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+  section: Appendix B (page 22)
+  http_status: 200
+schema_reference: asyncapi/imperative-execution-iqx-asyncapi.yml
+x-evidence:
+- fetched: '2026-08-04'
+  url: https://www.imperativex.com/market-data
+  http_status: 200
+- fetched: '2026-08-04'
+  url: https://s3.amazonaws.com/iqx.imperativex.com/Symbol-Mapping.txt
+  http_status: 200

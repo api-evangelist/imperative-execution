@@ -1,18 +1,95 @@
 aid: imperative-execution
 name: Imperative Execution
-description: 'Imperative Execution is a company surfaced via the API Evangelist harvest backlog (source:
-  secondary-market) and added to the network as a stub for full-pipeline profiling.'
+description: 'Imperative Execution is a New York financial technology company and the
+  parent of IntelligentCross, an SEC-registered US equities Alternative Trading System
+  (ATS) that applies machine learning to order matching and price discovery. IntelligentCross
+  operates a non-displayed Midpoint book and ASPEN, a full limit order book with optional
+  displayed capability that is split into three independent books by fee model (Fee/Fee,
+  Maker/Taker, Taker/Maker), all under MPID INCR, with primary matching engines in the
+  Equinix NY4 data center in Secaucus, New Jersey. Registered broker-dealer subscribers
+  reach the venue for order entry over FIX 4.2 across Pico cross-connects, and the venue
+  publishes its own IQX market data feed - a binary, multicast-UDP full depth-of-book
+  and execution feed whose message specification, recovery/rerequest specification,
+  daily symbol mapping file and sample PCAP captures are all published openly.'
+image: https://cdn.prod.website-files.com/5ee92e3bd621402efc7f2d3f/67e1c4d359b8c0966be92f8d_intelligentCross-logo.png
 url: https://raw.githubusercontent.com/api-evangelist/imperative-execution/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment-pipeline
 specificationVersion: '0.20'
 created: '2026-08-04'
 modified: '2026-08-04'
 tags:
 - Company
-apis: []
+- Financial Services
+- Capital Markets
+- Trading
+- Market Data
+- Equities
+- Alternative Trading System
+- FIX Protocol
+- Multicast Market Data
+- Fintech
+apis:
+- name: IntelligentCross IQX Market Data Feed
+  description: 'IQX is the IntelligentCross proprietary market data feed. It disseminates
+    all visible ASPEN resting orders, cancels for ASPEN visible orders, and all ASPEN
+    executions, plus per-symbol reference data, market state and individual symbol
+    trading states. It is a binary protocol carried over multicast UDP with separate
+    primary (A) and secondary (B) groups per book, and a separate published rerequest/recovery
+    specification. IntelligentCross does not charge for market data through IQX.'
+  humanURL: https://www.imperativex.com/market-data
+  baseURL: https://s3.amazonaws.com/iqx.imperativex.com/
+  x-transport: multicast UDP (binary). The HTTPS baseURL is the published IQX resource
+    host that serves the daily symbol mapping file and the sample PCAP captures.
+  tags:
+  - Market Data
+  - Equities
+  - Multicast
+  - Binary Protocol
+  - Depth of Book
+  properties:
+  - type: Documentation
+    url: https://www.imperativex.com/market-data
+  - type: APIReference
+    name: IntelligentCross Market Data Feed Specification v1.11
+    url: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+  - type: Specification
+    name: IntelligentCross IQX Market Data Rerequest Specification v1.08
+    url: https://cdn.prod.website-files.com/5ee92e3bd6214065dc7f2d48/61dc6cb50403bf15350ea647_IntelligentCross%20IQX%20Market%20Data%20Rerequest%20Specification%20v1.08.pdf
+  - type: AsyncAPI
+    url: asyncapi/imperative-execution-iqx-asyncapi.yml
+  - type: Examples
+    url: examples/imperative-execution-iqx-sample-data.yml
+- name: IntelligentCross FIX Order Entry API
+  description: 'Order entry into the IntelligentCross ATS books (Midpoint, ASPEN Fee/Fee,
+    ASPEN Maker/Taker, ASPEN Taker/Maker) is accepted only over FIX connections; the
+    ATS currently supports FIX 4.2. Subscribers must be registered US broker-dealers
+    in good standing with an SRO, and reach the matching engines through NY4 cross-connects
+    or a network service provider with an NY4 presence. Book selection is affirmative
+    via the FIX ExDestination[100] tag and defaults to ASPEN Fee/Fee. The FIX specification
+    is provided to subscribers on request from ops@intelligentcross.com.'
+  humanURL: https://www.imperativex.com/faq
+  baseURL: https://www.imperativex.com/contact
+  x-protocol: FIX 4.2
+  x-transport: FIX over TCP on private cross-connects at Equinix NY4 (Secaucus, NJ).
+    There is no public HTTP endpoint - the baseURL points at the documented onboarding
+    and specification-request surface.
+  x-access: subscriber-only (registered US broker-dealers)
+  tags:
+  - Trading
+  - Order Entry
+  - FIX Protocol
+  - Equities
+  - Alternative Trading System
+  properties:
+  - type: Documentation
+    url: https://www.imperativex.com/faq
+  - type: Authentication
+    url: authentication/imperative-execution-authentication.yml
+  - type: Conventions
+    url: conventions/imperative-execution-conventions.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +97,55 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
+  url: https://www.imperativex.com/
+- type: Documentation
+  url: https://www.imperativex.com/market-data
+- type: APIReference
+  name: IntelligentCross Market Data Feed Specification v1.11
+  url: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+- type: Support
+  url: https://www.imperativex.com/contact
+- type: HelpCenter
+  name: IntelligentCross FAQ
+  url: https://www.imperativex.com/faq
+- type: Blog
+  name: IntelligentCross News
+  url: https://www.imperativex.com/news
+- type: TermsOfService
+  name: Disclaimers
+  url: https://www.imperativex.com/disclaimers
+- type: PrivacyPolicy
+  url: https://www.imperativex.com/privacy-policy
+- type: Compliance
+  name: IntelligentCross Form ATS-N (SEC EDGAR)
+  url: https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001746102&type=ATS-N&dateb=&owner=include&count=40
+- type: Profile
+  name: Forge Global secondary-market listing
   url: https://forgeglobal.com/imperative-execution_stock/
+- type: LLMsTxt
+  url: llms/imperative-execution-llms.txt
+- type: AsyncAPI
+  url: asyncapi/imperative-execution-iqx-asyncapi.yml
+- type: Examples
+  url: examples/imperative-execution-iqx-sample-data.yml
+- type: Sandbox
+  url: sandbox/imperative-execution-sandbox.yml
+- type: ChangeLog
+  url: changelog/imperative-execution-changelog.yml
+- type: Conventions
+  url: conventions/imperative-execution-conventions.yml
+- type: Authentication
+  url: authentication/imperative-execution-authentication.yml
+- type: Conformance
+  url: conformance/imperative-execution-conformance.yml
+- type: Lifecycle
+  url: lifecycle/imperative-execution-lifecycle.yml
+- type: DataModel
+  url: data-model/imperative-execution-data-model.yml
+- type: DomainSecurity
+  url: security/imperative-execution-domain-security.yml
+x-enrichment:
+  date: '2026-08-04'
+  status: enriched
+  artifacts_added: 13
+  pass: local-v1

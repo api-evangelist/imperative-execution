@@ -1,0 +1,30 @@
+# Imperative Execution / IntelligentCross
+
+> Imperative Execution is a financial technology company and the parent of IntelligentCross®, an SEC-registered US equities Alternative Trading System (ATS) that uses AI to optimize price discovery and matches orders near-continuously to maximize post-trade price stability.
+
+IntelligentCross operates two matching models: a non-displayed Midpoint book and ASPEN, a full limit order book with optional displayed capability. ASPEN is split into three independent books by fee structure — Fee/Fee, Maker/Taker, and Taker/Maker. All books run under MPID INCR. Primary matching engines are in Equinix NY4 (Secaucus, NJ). Subscribers connect via FIX 4.2 through Pico cross-connects. Clearing is provided by Instinet, LLC.
+
+## Core pages
+
+- [Home](https://www.imperativex.com/): Overview of IntelligentCross — an AI-powered US equities trading venue that optimizes price discovery via near-continuous matching.
+- [Platforms](https://www.imperativex.com/platforms): The Midpoint and ASPEN matching models — AI-optimized order matching designed to minimize price impact and maximize liquidity discovery.
+- [Market Data](https://www.imperativex.com/market-data): The IQX data feed — order and execution data for the ASPEN books, distributed through multiple partners.
+- [ImperativeX](https://www.imperativex.com/imperativex): ImperativeX, a displayed-book ATS that uses machine learning to deliver optimized execution to registered brokers.
+- [About / Leadership](https://www.imperativex.com/leadership): The team behind Imperative Execution — industry veterans leading market execution and trading technology.
+- [Contact](https://www.imperativex.com/contact): Request FIX specifications, subscription materials, and onboarding documents (registered broker-dealers only).
+- [FAQ](https://www.imperativex.com/faq): Full Q&A covering subscriber eligibility, matching models, order types, NBBO handling, Hosted Pools, connectivity, fees, hours, and clearing.
+
+## News and announcements
+
+- [News](https://www.imperativex.com/news): Press releases, company announcements, and upcoming industry events.
+
+## Reference and compliance
+
+- [Restricted Symbols](https://www.imperativex.com/restricted): List of NMS symbols where orders may be rejected to remain below certain regulatory volume thresholds.
+- [Form ATS-N (SEC)](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001746102&type=ATS-N&dateb=&owner=include&count=40): Most current IntelligentCross Form ATS-N filing under Rule 304 of Regulation ATS.
+- [Business Continuity Plan (PDF)](https://cdn.prod.website-files.com/5ee92e3bd621402efc7f2d3f/68880bfc97e2d817f8dc32a7_IntelligentCross_Business%20Continuity%20Plan%20Summary_2025.pdf): 2025 IntelligentCross Business Continuity Plan summary.
+
+## Optional
+
+- [Disclaimers](https://www.imperativex.com/disclaimers): Legal disclaimers governing use of the site and IntelligentCross materials.
+- [Privacy Policy](https://www.imperativex.com/privacy-policy): How IntelligentCross collects, uses, and protects personal information.

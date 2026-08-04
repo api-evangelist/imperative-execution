@@ -1,0 +1,102 @@
+generated: '2026-08-04'
+method: derived
+source: asyncapi/imperative-execution-iqx-asyncapi.yml
+derived_from: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+summary: 'Entity-relationship graph derived from the IntelligentCross IQX Market Data Feed
+  Specification v1.11 message set. The feed models five entities - Session, Symbol, Order,
+  Execution and Trade - joined by three market-issued identifiers (Symbol ID, Order ID,
+  Execution ID). Order ID is also the join key across surfaces: it is the same value the FIX
+  order gateway returns in tag 37 on the order acknowledgment, so a subscriber can reconcile
+  its private FIX drop against the public IQX stream.'
+entities:
+- name: Session
+  description: The trading session for one market day, on one feed.
+  identified_by: Market Day Identifier (packet header) + Feed Identifier
+  emitted_by: [MarketEvent]
+  states: [O Start of Session, S Market accepting orders, Q Market open for trading, E Market
+      trading ended for day, C End of Session]
+- name: Symbol
+  description: An NMS security tradeable on the venue, with its reference data and per-symbol
+    trading state.
+  identified_by: Symbol ID (2-byte integer index) and/or Symbol (11-char alpha)
+  id_stability: Symbol ID to Symbol mapping may change day to day; refresh the daily mapping
+    file.
+  attributes: [Symbol, Symbol ID, Listing Market, Round Lot Size, State]
+  states: [I Matching Inactive, A Matching Active, D Disabled, E Enabled]
+  emitted_by: [SymbolInformation, SymbolState]
+  reference_data: https://s3.amazonaws.com/iqx.imperativex.com/Symbol-Mapping.txt
+- name: Order
+  description: A visible ASPEN resting order. Only visible orders appear on the feed; hidden
+    liquidity surfaces only as a Trade.
+  identified_by: Order ID (8-byte market-issued unique integer)
+  attributes: [Side, Shares, Price, Symbol, Symbol ID]
+  lifecycle_messages: [NewOrderAdd (D), OrderPartialCancel (F), OrderCancelAll (G), OrderUpdated
+      (H, reserved), OrderExecuted (J)]
+- name: Execution
+  description: An execution against a visible resting order.
+  identified_by: Execution ID (8-byte market-issued unique integer)
+  attributes: [Shares, Price]
+  emitted_by: [OrderExecuted]
+- name: Trade
+  description: An execution of a hidden order. Carries Symbol and Execution ID but no Order ID -
+    the resting side is not disclosed.
+  identified_by: Execution ID
+  attributes: [Shares, Symbol, Price]
+  emitted_by: [Trade]
+relationships:
+- from: Order
+  to: Symbol
+  kind: belongs_to
+  via: symbolId
+  also_via: symbol
+  note: New Order Add carries both Symbol ID and the full Symbol.
+- from: Execution
+  to: Order
+  kind: belongs_to
+  via: orderId
+  note: Order Executed carries the Order ID of the resting visible order it filled.
+- from: Order
+  to: Execution
+  kind: has_many
+  via: orderId
+  note: A resting order may be executed multiple times; each fill carries its own Execution ID.
+- from: Execution
+  to: Symbol
+  kind: belongs_to
+  via: symbolId
+  note: Order Executed carries Symbol ID but not Symbol; resolve through the Order or the daily
+    mapping file.
+- from: Trade
+  to: Symbol
+  kind: belongs_to
+  via: symbolId
+  also_via: symbol
+- from: TradeBreak
+  to: Trade
+  kind: belongs_to
+  via: executionId
+  status: reserved-for-future-use
+- from: SymbolState
+  to: Symbol
+  kind: belongs_to
+  via: symbolId
+- from: Session
+  to: Symbol
+  kind: has_many
+  via: feed
+  note: A session enumerates its tradeable universe via Symbol Information messages (symbol spin)
+    at start of session.
+cross_surface_keys:
+- key: orderId
+  surfaces: [IQX NewOrderAdd, FIX order acknowledgment tag 37 (OrderID) on 38=8/150=0]
+  note: The single documented join between the public market data feed and a subscriber's private
+    FIX session.
+- key: symbolId
+  surfaces: [IQX messages, daily symbol mapping file]
+identifier_prefixes: []
+identifier_prefix_note: All identifiers are opaque binary integers; the venue publishes no
+  prefixed/typed string identifiers.
+x-evidence:
+- fetched: '2026-08-04'
+  url: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+  http_status: 200

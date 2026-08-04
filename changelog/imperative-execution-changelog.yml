@@ -1,0 +1,86 @@
+generated: '2026-08-04'
+method: searched
+source: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+summary: 'IntelligentCross does not publish a rolling API changelog page. It versions
+  its market data specifications as documents and carries a dated Revision History table
+  inside each one. The entries below are transcribed verbatim from the Revision History
+  of the IntelligentCross Market Data Feed Specification v1.11 (current published version,
+  updated July 30, 2020). Company and venue announcements are published separately on
+  the News page.'
+scheme: document-version
+current_version: '1.11'
+current_version_date: '2020-07-30'
+artifact: IntelligentCross Market Data Feed Specification
+docs: https://www.imperativex.com/market-data
+related_documents:
+- name: IntelligentCross IQX Market Data Rerequest Specification
+  version: '1.08'
+  url: https://cdn.prod.website-files.com/5ee92e3bd6214065dc7f2d48/61dc6cb50403bf15350ea647_IntelligentCross%20IQX%20Market%20Data%20Rerequest%20Specification%20v1.08.pdf
+news_feed: https://www.imperativex.com/news
+entries:
+- version: '1.11'
+  date: '2020-07-30'
+  breaking: false
+  highlights:
+  - Update logos and copyright.
+- version: '1.10'
+  date: '2019-11-04'
+  breaking: false
+  highlights:
+  - Added additional Network details for new books.
+- version: '1.09'
+  date: '2019-10-18'
+  breaking: false
+  highlights:
+  - Noted that TradeBreak is reserved for future use.
+- version: '1.08'
+  date: '2019-10-08'
+  breaking: false
+  highlights:
+  - Added a fuller description of the price field.
+- version: '1.07'
+  date: '2019-09-17'
+  breaking: false
+  highlights:
+  - Corrected format of symbol mapping files. They are in pipe delimited format.
+- version: '1.06'
+  date: '2019-08-07'
+  breaking: false
+  highlights:
+  - Added URL to download symbol mapping files.
+- version: '1.05'
+  date: '2019-07-08'
+  breaking: false
+  highlights:
+  - Noted that OrderUpdated is reserved for future use.
+- version: '1.04'
+  date: '2019-07-02'
+  breaking: true
+  highlights:
+  - Increased Symbol fields to 11 characters.
+  - Expanded list of example suffixes.
+  note: Widening a fixed-offset binary field changes downstream offsets, so this revision
+    is a wire-format change for decoders.
+- version: '1.03'
+  date: '2019-06-20'
+  breaking: false
+  highlights:
+  - Clarified when Order Update sent.
+  - Minor formatting updates.
+  - Added multicast group info.
+- version: '1.02'
+  date: '2019-06-12'
+  breaking: false
+  highlights:
+  - Add information on Order ID and FIX Order Ack.
+- version: '1.01'
+  date: '2019-05-20'
+  breaking: false
+  highlights:
+  - Initial Revision.
+x-evidence:
+- fetched: '2026-08-04'
+  url: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+  http_status: 200
+  content_type: application/pdf
+  section: Revision History (page 17)

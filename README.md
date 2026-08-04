@@ -42,5 +42,20 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Imperative Execution is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/imperative-execution_stock/
+Imperative Execution is a New York financial technology company and the parent of IntelligentCross, an SEC-registered US equities Alternative Trading System (ATS) that applies machine learning to order matching and price discovery. IntelligentCross operates a non-displayed Midpoint book and ASPEN, a full limit order book with optional displayed capability split into three independent books by fee model (Fee/Fee, Maker/Taker, Taker/Maker), all under MPID INCR, with primary matching engines in the Equinix NY4 data center in Secaucus, New Jersey.
+
+## Interfaces
+
+- **IntelligentCross IQX Market Data Feed** — a binary, multicast-UDP full depth-of-book and execution feed for the ASPEN books. The message specification, the recovery/rerequest specification, the daily symbol mapping file and a full-day sample PCAP capture are all published openly. — https://www.imperativex.com/market-data
+- **IntelligentCross FIX Order Entry API** — FIX 4.2 over private cross-connects at Equinix NY4. Subscribers must be registered US broker-dealers; the FIX specification is released to subscribers on request from ops@intelligentcross.com. — https://www.imperativex.com/faq
+
+There is no public HTTP/REST API, OpenAPI document, GraphQL endpoint, MCP server or A2A agent card on any Imperative Execution host — every probe is recorded in `well-known/imperative-execution-well-known.yml` and `conformance/imperative-execution-conformance.yml`.
+
+## Links
+
+- Website — https://www.imperativex.com/
+- Market Data — https://www.imperativex.com/market-data
+- FAQ — https://www.imperativex.com/faq
+- News — https://www.imperativex.com/news
+- Form ATS-N (SEC EDGAR, CIK 0001746102) — https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001746102&type=ATS-N&dateb=&owner=include&count=40
+- Forge Global secondary-market listing — https://forgeglobal.com/imperative-execution_stock/

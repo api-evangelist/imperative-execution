@@ -1,0 +1,81 @@
+generated: '2026-08-04'
+method: searched
+source: https://www.imperativex.com/faq
+summary: 'IntelligentCross versions its interfaces as dated specification documents rather than
+  as URI or header API versions. The current market-data contract is Market Data Feed Specification
+  v1.11 (2020-07-30) with a companion Rerequest Specification v1.08; the order-entry contract is
+  FIX 4.2 and its specification is subscriber-gated. No status page, SLA page or written deprecation
+  policy was found on any imperativex.com host. Operational continuity is published instead as an
+  annual Business Continuity Plan summary.'
+versioning:
+  scheme: document-version
+  current:
+    market_data_feed_spec: '1.11'
+    market_data_rerequest_spec: '1.08'
+    fix: '4.2'
+  docs: https://www.imperativex.com/market-data
+  note: 'The FIX version supported is stated as "currently supports FIX 4.2" - the venue reserves
+    the ability to change it and does not publish a version-support matrix.'
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  note: No written deprecation or sunset policy was found. The market-data specification does
+    signal forward compatibility in-band - two message types are defined but explicitly not sent,
+    and fields are reserved for future use.
+reserved_or_inactive_messages:
+- message: Order Updated
+  type_code: H
+  status: reserved-for-future-use
+  note: Order Updated messages are not currently sent. Customer initiated order changes result in
+    either Order Partial Cancel, or Order Cancel All followed by New Order Add and/or potentially
+    Order Executed.
+  since_version: '1.05'
+  source: asyncapi/imperative-execution-iqx-asyncapi.yml
+- message: Trade Break
+  type_code: M
+  status: reserved-for-future-use
+  note: Trade Break messages are not currently sent.
+  since_version: '1.09'
+  source: asyncapi/imperative-execution-iqx-asyncapi.yml
+sla:
+  url: null
+  uptime_target: null
+  note: No published SLA or uptime commitment found.
+status_page: null
+status_page_note: Probed https://status.imperativex.com/ - no host (connection failure). No status
+  or incident page linked from the site, llms.txt or robots.txt.
+business_continuity:
+  published: true
+  name: IntelligentCross Business Continuity Plan Summary (2025)
+  url: https://cdn.prod.website-files.com/5ee92e3bd621402efc7f2d3f/68880bfc97e2d817f8dc32a7_IntelligentCross_Business%20Continuity%20Plan%20Summary_2025.pdf
+operating_schedule:
+  trading_hours: generally 9:30am to 4:00pm Eastern Time
+  order_acceptance_opens: 9:00am Eastern Time (thirty minutes prior to the open of trading);
+    earlier connectivity available on request
+  operating_days: all business days during which the New York Stock Exchange is open for business
+  source: https://www.imperativex.com/faq
+infrastructure:
+  primary_matching_engines: Equinix NY4, Secaucus, New Jersey
+  network_provider: Pico Quantitative Trading
+  clearing_agent: Instinet, LLC
+  trade_reporting: Nasdaq TRF (primary), NYSE TRF (backup)
+  source: https://www.imperativex.com/faq
+milestones:
+- date: '2018-09'
+  event: IntelligentCross ATS launched.
+- date: '2023-08'
+  event: SEC approved IntelligentCross ATS as a new entrant to FINRA's Alternative Display
+    Facility, enabling ASPEN displayed quoting.
+changelog: changelog/imperative-execution-changelog.yml
+x-evidence:
+- fetched: '2026-08-04'
+  url: https://www.imperativex.com/faq
+  http_status: 200
+- fetched: '2026-08-04'
+  url: https://status.imperativex.com/
+  http_status: 0
+  result: connection failed - host does not resolve/serve
+- fetched: '2026-08-04'
+  url: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+  http_status: 200

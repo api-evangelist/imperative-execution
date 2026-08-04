@@ -1,0 +1,112 @@
+generated: '2026-08-04'
+method: searched
+source: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+docs: https://www.imperativex.com/market-data
+summary: 'IntelligentCross publishes a UAT (user acceptance test) environment for its
+  IQX market data feed alongside production, with its own multicast groups, ports and
+  feed identifiers, all documented in the public Market Data Feed Specification v1.11.
+  It also publishes downloadable sample data - a full-day PCAP capture of the feed and
+  the daily pipe-delimited symbol mapping file - so a consumer can build and validate
+  a decoder before requesting connectivity. There is no public self-service sandbox
+  for order entry: FIX access requires a subscriber agreement and a cross-connect.'
+environments:
+- name: PROD
+  kind: production
+  transport: multicast UDP
+  feeds:
+  - book: ASPEN Fee/Fee
+    feed_identifier: P
+    primary_group: 233.203.108.4
+    secondary_group: 233.203.108.6
+    port: 29049
+    source_ip_primary: 46.255.0.74
+    source_ip_secondary: 46.255.0.90
+    rp_primary: 185.136.106.2
+    rp_secondary: 185.136.106.130
+  - book: ASPEN Maker/Taker
+    feed_identifier: A
+    primary_group: 233.203.108.4
+    secondary_group: 233.203.108.6
+    port: 29050
+    source_ip_primary: 46.255.0.74
+    source_ip_secondary: 46.255.0.90
+    rp_primary: 185.136.106.2
+    rp_secondary: 185.136.106.130
+  - book: ASPEN Taker/Maker
+    feed_identifier: Z
+    primary_group: 233.203.108.4
+    secondary_group: 233.203.108.6
+    port: 29051
+    source_ip_primary: 46.255.0.74
+    source_ip_secondary: 46.255.0.90
+    rp_primary: 185.136.106.2
+    rp_secondary: 185.136.106.130
+- name: UAT
+  kind: test
+  transport: multicast UDP
+  description: User acceptance test environment. Separate multicast groups, ports and
+    feed identifiers from production, so a decoder can be certified without touching
+    the live feed.
+  feeds:
+  - book: ASPEN Fee/Fee
+    feed_identifier: T
+    primary_group: 233.203.108.5
+    secondary_group: 233.203.108.7
+    port: 18505
+    source_ip_primary: 46.255.0.82
+    source_ip_secondary: 46.255.0.98
+    rp_primary: 185.136.106.2
+    rp_secondary: 185.136.106.130
+  - book: ASPEN Maker/Taker
+    feed_identifier: B
+    primary_group: 233.203.108.5
+    secondary_group: 233.203.108.7
+    port: 18506
+    source_ip_primary: 46.255.0.82
+    source_ip_secondary: 46.255.0.98
+    rp_primary: 185.136.106.2
+    rp_secondary: 185.136.106.130
+  - book: ASPEN Taker/Maker
+    feed_identifier: Y
+    primary_group: 233.203.108.5
+    secondary_group: 233.203.108.7
+    port: 18507
+    source_ip_primary: 46.255.0.82
+    source_ip_secondary: 46.255.0.98
+    rp_primary: 185.136.106.2
+    rp_secondary: 185.136.106.130
+test_data:
+- name: Sample IQX PCAP capture
+  description: Full-day capture of the IQX feed (mdA), gzipped PCAP, published for decoder
+    development and validation.
+  url: https://s3.amazonaws.com/iqx.imperativex.com/20230103-IQX-mdA.pcap.gz
+  trade_date: '2023-01-03'
+- name: Daily symbol mapping file
+  description: Static pipe-delimited Symbol ID to Symbol mapping file, published daily.
+    Symbol ID to Symbol mapping may change from day to day, so consumers using Symbol
+    ID must refresh this file daily.
+  url: https://s3.amazonaws.com/iqx.imperativex.com/Symbol-Mapping.txt
+  format: pipe-delimited text
+example_values:
+  note: The Market Data Feed Specification Appendix A works its examples with the fictitious
+    stock symbol ACME and the imagined IntelligentCross Symbol ID 31999. These are illustrative
+    values from the provider's own documentation, not live identifiers.
+  example_symbol: ACME
+  example_symbol_id: 31999
+order_entry_sandbox:
+  available: false
+  note: There is no public self-service test environment for order entry. FIX access
+    requires a subscriber agreement (registered US broker-dealers only) and NY4 connectivity;
+    the FIX specification and onboarding materials are requested from ops@intelligentcross.com.
+x-evidence:
+- fetched: '2026-08-04'
+  url: http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf
+  http_status: 200
+  content_type: application/pdf
+- fetched: '2026-08-04'
+  url: https://s3.amazonaws.com/iqx.imperativex.com/Symbol-Mapping.txt
+  http_status: 200
+  bytes: 268223
+- fetched: '2026-08-04'
+  url: https://www.imperativex.com/market-data
+  http_status: 200
