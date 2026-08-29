@@ -11,6 +11,17 @@ description: 'Imperative Execution is a New York financial technology company an
   publishes its own IQX market data feed - a binary, multicast-UDP full depth-of-book
   and execution feed whose message specification, recovery/rerequest specification,
   daily symbol mapping file and sample PCAP captures are all published openly.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://cdn.prod.website-files.com/5ee92e3bd621402efc7f2d3f/67e1c4d359b8c0966be92f8d_intelligentCross-logo.png
 url: https://raw.githubusercontent.com/api-evangelist/imperative-execution/refs/heads/main/apis.yml
 x-type: company
