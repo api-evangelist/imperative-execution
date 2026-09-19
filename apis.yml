@@ -51,7 +51,7 @@ tags:
 - Capital Markets
 - Trading
 - Market Data
-- Equities
+- Stocks
 - Alternative Trading System
 - FIX Protocol
 - Multicast Market Data
@@ -80,6 +80,12 @@ apis:
   x-transport: multicast UDP (binary). The HTTPS baseURL is the published IQX resource
     host that serves the daily symbol mapping file and the sample PCAP captures.
   tags:
+  - Market Data
+  - Stocks
+  - Multicast
+  - Binary Protocol
+  - Depth of Book
+  tags_raw:
   - Market Data
   - Equities
   - Multicast
@@ -114,6 +120,12 @@ apis:
     and specification-request surface.
   x-access: subscriber-only (registered US broker-dealers)
   tags:
+  - Trading
+  - Order Entry
+  - FIX Protocol
+  - Stocks
+  - Alternative Trading System
+  tags_raw:
   - Trading
   - Order Entry
   - FIX Protocol
