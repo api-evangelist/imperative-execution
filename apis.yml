@@ -47,7 +47,7 @@ created: '2026-08-04'
 modified: '2026-08-04'
 tags:
 - Company
-- Financial-Services
+- Financial Services
 - Capital Markets
 - Trading
 - Market Data
@@ -67,6 +67,7 @@ tags_raw:
 - FIX Protocol
 - Multicast Market Data
 - Fintech
+- Financial-Services
 apis:
 - name: IntelligentCross IQX Market Data Feed
   description: 'IQX is the IntelligentCross proprietary market data feed. It disseminates
