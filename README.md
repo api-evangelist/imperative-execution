@@ -64,20 +64,98 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Imperative Execution is a New York financial technology company and the parent of IntelligentCross, an SEC-registered US equities Alternative Trading System (ATS) that applies machine learning to order matching and price discovery. IntelligentCross operates a non-displayed Midpoint book and ASPEN, a full limit order book with optional displayed capability split into three independent books by fee model (Fee/Fee, Maker/Taker, Taker/Maker), all under MPID INCR, with primary matching engines in the Equinix NY4 data center in Secaucus, New Jersey.
+Imperative Execution is a New York financial technology company and the parent of IntelligentCross, an SEC-registered US equities Alternative Trading System (ATS) that applies machine learning to order matching and price discovery. IntelligentCross operates a non-displayed Midpoint book and ASPEN, a full limit order book with optional displayed capability that is split into three independent books by fee model (Fee/Fee, Maker/Taker, Taker/Maker), all under MPID INCR, with primary matching engines in the Equinix NY4 data center in Secaucus, New Jersey. Registered broker-dealer subscribers reach the venue for order entry over FIX 4.2 across Pico cross-connects, and the venue publishes its own IQX market data feed - a binary, multicast-UDP full depth-of-book and execution feed whose message specification, recovery/rerequest specification, daily symbol mapping file and sample PCAP captures are all published openly.
 
-## Interfaces
+**Areas:** Company · Financial Services · Capital Markets · Trading · Market Data · Stocks · Alternative Trading System · FIX Protocol · Multicast Market Data · Fintech
 
-- **IntelligentCross IQX Market Data Feed** — a binary, multicast-UDP full depth-of-book and execution feed for the ASPEN books. The message specification, the recovery/rerequest specification, the daily symbol mapping file and a full-day sample PCAP capture are all published openly. — https://www.imperativex.com/market-data
-- **IntelligentCross FIX Order Entry API** — FIX 4.2 over private cross-connects at Equinix NY4. Subscribers must be registered US broker-dealers; the FIX specification is released to subscribers on request from ops@intelligentcross.com. — https://www.imperativex.com/faq
+## Imperative Execution on APIs.io
 
-There is no public HTTP/REST API, OpenAPI document, GraphQL endpoint, MCP server or A2A agent card on any Imperative Execution host — every probe is recorded in `well-known/imperative-execution-well-known.yml` and `conformance/imperative-execution-conformance.yml`.
+Everything profiled for Imperative Execution is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/imperative-execution/](https://apis.io/providers/imperative-execution/)** — or go straight to one of the APIs or properties below.
 
-## Links
+### APIs (2)
 
-- Website — https://www.imperativex.com/
-- Market Data — https://www.imperativex.com/market-data
-- FAQ — https://www.imperativex.com/faq
-- News — https://www.imperativex.com/news
-- Form ATS-N (SEC EDGAR, CIK 0001746102) — https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001746102&type=ATS-N&dateb=&owner=include&count=40
-- Forge Global secondary-market listing — https://forgeglobal.com/imperative-execution_stock/
+- [IntelligentCross IQX Market Data Feed](https://apis.io/apis/imperative-execution/intelligentcross-iqx-market-data-feed/) — IQX is the IntelligentCross proprietary market data feed. It disseminates all visible ASPEN resting orders, cancels for ASPEN visible orders, and all ASPEN…
+- [IntelligentCross FIX Order Entry API](https://apis.io/apis/imperative-execution/intelligentcross-fix-order-entry-api/) — Order entry into the IntelligentCross ATS books (Midpoint, ASPEN Fee/Fee, ASPEN Maker/Taker, ASPEN Taker/Maker) is accepted only over FIX connections; the…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Imperative Execution Iqx Asyncapi](https://apis.io/asyncapis/imperative-execution/imperative-execution-iqx-asyncapi/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Imperative Execution Authentication](https://apis.io/security/imperative-execution/imperative-execution-authentication/)
+- [Imperative Execution Domain Security](https://apis.io/security/imperative-execution/imperative-execution-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.imperativex.com/)
+- [Documentation](https://www.imperativex.com/market-data)
+- [API reference](http://iqx.imperativex.com/IntelligentCrossMarketDataFeedSpec.v.1.11.pdf)
+- [Support](https://www.imperativex.com/contact)
+- [Blog](https://www.imperativex.com/news)
+- [Compliance](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001746102&type=ATS-N&dateb=&owner=include&count=40)
+- [Terms of service](https://www.imperativex.com/disclaimers)
+- [Privacy policy](https://www.imperativex.com/privacy-policy)
+
+## API Evangelist rating
+
+**Kin Score 36.1** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 36.4 |
+| Contract governance | 18.2 |
+| Operational transparency | 15.8 |
+| Developer ergonomics | 42.9 |
+| Access clarity | 28.9 |
+
+**Agent readiness 17.8** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | — |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 27.8** — Securities & Market Data
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/imperative-execution/](https://apis.io/providers/imperative-execution/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Imperative Execution: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/imperative-execution/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
